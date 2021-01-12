@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Image,
 import {AntDesign, MaterialIcons} from '@expo/vector-icons';
 import axios from "react-native-axios";
 import {firebaseApp} from "../../util/firebaseConfig";
+import {host} from "../../util/serverConfig";
 
 const imgWidth = Dimensions.get('window').width*0.9;
 let t;
@@ -19,7 +20,7 @@ export default class Home extends Component{
     }
 
     upload = async ()=>{
-        const response = await fetch('http://192.168.0.10/ESP32/camera_upload/upload_esp32.jpg?time='+Date.now());
+        const response = await fetch('http://'+host+'/ESP32/camera_upload/upload_esp32.jpg?time='+Date.now());
         const blob = await response.blob();
         let metadata = {
             contentType: 'image/jpeg',
@@ -38,7 +39,7 @@ export default class Home extends Component{
 
     capture = ()=>{
         axios.post(
-            "http://192.168.0.10/ESP32/esp32_cam_upload_control.php",
+            "http://"+host+"/ESP32/esp32_cam_upload_control.php",
             "CAPTURE_ON="
         )
             .then((res)=>{
@@ -49,7 +50,7 @@ export default class Home extends Component{
                 t = setInterval(()=>{
                     if(this.state.isCapturing){
                         axios.post(
-                            "http://192.168.0.10/ESP32/sync_allpages.php",
+                            "http://"+host+"/ESP32/sync_allpages.php",
                             "val_button="
                         )
                             .then((res)=>{
@@ -79,7 +80,7 @@ export default class Home extends Component{
                 <Image
                     style={styles.img}
                     source={{
-                        uri: 'http://192.168.0.10/ESP32/camera_upload/upload_esp32.jpg?time='+Date.now(),
+                        uri: 'http://'+host+'/ESP32/camera_upload/upload_esp32.jpg?time='+Date.now(),
                     }}
                 />
             );
