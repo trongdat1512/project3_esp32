@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, FlatList, Image, Dimensions, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {StyleSheet, Text, View, FlatList, Image, RefreshControl,
+    Dimensions, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {firebaseApp} from "../../util/firebaseConfig";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {StatusBar} from "expo-status-bar";
@@ -13,7 +14,8 @@ export default class Storage extends Component{
         super(props);
         this.state = {
             imgItem: "",
-            isLoading: true
+            isLoading: true,
+            refreshing: false
         }
     }
 
@@ -22,7 +24,10 @@ export default class Storage extends Component{
     }
 
     reload = ()=>{
-        this.setState({isLoading: true})
+        this.setState({
+            isLoading: true,
+            refreshing: true
+        })
         item = [];
         let listRef = firebaseApp.storage().ref().child('captured');
         listRef.listAll().then(function(res) {
@@ -45,7 +50,8 @@ export default class Storage extends Component{
             if(isLoaded){
                 this.setState({
                     imgItem: item,
-                    isLoading: false
+                    isLoading: false,
+                    refreshing: false
                 })
                 isLoaded = false;
                 clearInterval(t);
@@ -58,6 +64,9 @@ export default class Storage extends Component{
             return(
                 <FlatList
                     data={this.state.imgItem}
+                    refreshControl={
+                        <RefreshControl refreshing={this.state.refreshing} onRefresh={this.reload} />
+                    }
                     renderItem={({item}) =>
                         <View style={styles.itemContainer}>
                             <Image
@@ -86,12 +95,6 @@ export default class Storage extends Component{
             <View style={styles.container}>
                 <StatusBar style="light" />
                 {this.loader()}
-                <TouchableOpacity
-                    style={styles.reloadBtn}
-                    onPress={this.reload}
-                >
-                    <MaterialCommunityIcons name="reload" size={35} color="white" />
-                </TouchableOpacity>
             </View>
         );
     }

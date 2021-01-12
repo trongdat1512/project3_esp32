@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     label:{
-        marginTop: 50,
+        marginTop: 15,
         fontSize: 25,
         textAlign: "center",
         color: "#003f5c",
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     },
     captureBtn:{
         position: "absolute",
-        bottom: 50,
+        bottom: 20,
         borderWidth: 1,
         borderColor: "gray",
         borderRadius: 50,

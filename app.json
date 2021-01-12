@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "project3",
+    "name": "Project3 ESP32",
     "slug": "project3",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,9 +17,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.project3.esp32",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "package": "com.project3.esp32",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
