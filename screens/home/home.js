@@ -39,7 +39,7 @@ export default class Home extends Component{
     capture = ()=>{
         axios.post(
             "http://192.168.0.10/ESP32/esp32_cam_upload_control.php",
-            "LED1_ON="
+            "CAPTURE_ON="
         )
             .then((res)=>{
                 this.setState({
