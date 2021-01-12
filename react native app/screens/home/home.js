@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, Image,
     TouchableOpacity, ActivityIndicator, Dimensions} from 'react-native';
-import {AntDesign, MaterialIcons} from '@expo/vector-icons';
+import {MaterialIcons} from '@expo/vector-icons';
 import axios from "react-native-axios";
 import {firebaseApp} from "../../util/firebaseConfig";
 import {host} from "../../util/serverConfig";

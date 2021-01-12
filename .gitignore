@@ -1,13 +1,10 @@
-node_modules/**/*
-.expo/*
-npm-debug.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
-web-build/
-
-# macOS
-.DS_Store
+react native app/node_modules/**/*
+react native app/.expo/*
+react native app/npm-debug.*
+react native app/*.jks
+react native app/*.p8
+react native app/*.p12
+react native app/*.key
+react native app/*.mobileprovision
+react native app/*.orig.*
+react native app/web-build/

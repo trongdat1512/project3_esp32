@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, FlatList, Image, RefreshControl,
-    Dimensions, TouchableOpacity, ActivityIndicator} from 'react-native';
+    Dimensions, ActivityIndicator} from 'react-native';
 import {firebaseApp} from "../../util/firebaseConfig";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {StatusBar} from "expo-status-bar";
 
 const imgWidth = Dimensions.get('window').width*0.43;
