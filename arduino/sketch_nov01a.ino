@@ -18,7 +18,6 @@ int content_length;
 bool json_ok =0,en=0;
 String line,data_esp32;
  
-// CAMERA_MODEL_AI_THINKER
 #define PWDN_GPIO_NUM     32
 #define RESET_GPIO_NUM    -1
 #define XCLK_GPIO_NUM      0
@@ -35,7 +34,8 @@ String line,data_esp32;
 #define VSYNC_GPIO_NUM    25
 #define HREF_GPIO_NUM     23
 #define PCLK_GPIO_NUM     22
- 
+
+// Setup camera
 void setup()
 {
   Serial.begin(115200);
@@ -66,7 +66,7 @@ void setup()
   config.pin_reset = RESET_GPIO_NUM;
   config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_JPEG;
-  //init with high specs to pre-allocate larger buffers
+
   if (psramFound()) {
     config.frame_size = FRAMESIZE_UXGA;
     config.jpeg_quality = 10;
@@ -77,14 +77,13 @@ void setup()
     config.fb_count = 1;
   }
  
-  // camera init
   esp_err_t err = esp_camera_init(&config);
   if (err != ESP_OK) {
     Serial.printf("Camera init failed with error 0x%x", err);
     return;
   }
 }
- 
+// Kết nối wifi
 bool init_wifi()
 {
   int connAttempts = 0;
@@ -98,7 +97,7 @@ bool init_wifi()
   }
   return true;
 }
- 
+// In ra http event
 esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 {
   switch (evt->event_id) {
@@ -118,10 +117,6 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
     case HTTP_EVENT_ON_DATA:
       Serial.println();
       Serial.printf("HTTP_EVENT_ON_DATA, len=%d", evt->data_len);
-      if (!esp_http_client_is_chunked_response(evt->client)) {
-        // Write out data
-        // printf("%.*s", evt->data_len, (char*)evt->data);
-      }
       content_length= evt->data_len;
       break;
     case HTTP_EVENT_ON_FINISH:
@@ -134,7 +129,7 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
   }
   return ESP_OK;
 }
- 
+// Chụp ảnh & gửi lên server
 static esp_err_t take_send_photo()
 {
   Serial.println("Taking picture...");
@@ -173,15 +168,13 @@ static esp_err_t take_send_photo()
   esp_camera_fb_return(fb);
 }
  
-//=======================================RECEIVE COMMAND FROM WEBSERVER TO TAKE A PICTURE========
+// Đọc file json trên server nhận lệnh chụp hình
 static esp_err_t send_post_request()
 {
    char *rev_data =(char*) malloc(20);
     if (rev_data == NULL) {
         ESP_LOGE(TAG, "Cannot malloc http receive buffer");      
     }
-  
-//  esp_err_t res = ESP_OK;
  
   esp_http_client_handle_t http_client;
   
@@ -191,8 +184,6 @@ static esp_err_t send_post_request()
   config_client.method = HTTP_METHOD_POST;
  
   http_client = esp_http_client_init(&config_client);
-  
-// esp_http_client_set_post_field(client, post_data, strlen(post_data)); // chi get tu json file
  
   esp_err_t err = esp_http_client_perform(http_client);
   if (err == ESP_OK) {
@@ -204,12 +195,11 @@ static esp_err_t send_post_request()
   data_esp32=String(rev_data);
   esp_http_client_cleanup(http_client);
 }
- 
+// Xử lý dữ liệu json
 void process_command()
 {
-          
-       String result = data_esp32;          
-// ===============Parse JSON===============
+      String result = data_esp32;          
+
       int size = result.length()+1;
       char json[size];
       result.toCharArray(json, size);
@@ -220,7 +210,6 @@ void process_command()
         Serial.println("parseObject() failed");    
       }
       else Serial.println("Parse OK");          
-//===========================================================      
                 if (strcmp(json_parsed["capture"], "on") == 0)
                     {
                 Serial.println("TAKE A PHOTO");
@@ -233,9 +222,8 @@ void process_command()
                     }
                   
                               
-} // end function
- 
-//================================================================================================
+}
+// Gửi request định kỳ mỗi 1s
 void loop()
 {
   send_post_request();

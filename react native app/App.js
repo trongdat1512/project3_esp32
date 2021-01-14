@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {NavigationContainer} from "@react-navigation/native";
-import { StyleSheet} from 'react-native';
 import TabNav from "./screens/tabNav";
 
 export default class App extends Component{
@@ -12,7 +11,3 @@ export default class App extends Component{
         );
     }
 }
-
-const styles = StyleSheet.create({
-
-});

@@ -19,12 +19,14 @@ export default class Home extends Component{
         }
     }
 
+    // Upload ảnh lên firebase storage
     upload = async ()=>{
         const response = await fetch('http://'+host+'/ESP32/camera_upload/upload_esp32.jpg?time='+Date.now());
         const blob = await response.blob();
         let metadata = {
             contentType: 'image/jpeg',
         };
+        // Đặt tên ảnh theo thời gian chụp
         let currentDate = new Date();
         let datetime = "" + currentDate.getDate() + "-"
             + (currentDate.getMonth()+1)  + "-"
@@ -37,6 +39,7 @@ export default class Home extends Component{
         return ref.put(blob, metadata);
     }
 
+    // Gửi post request lên server để điều khiển chụp ảnh
     capture = ()=>{
         axios.post(
             "http://"+host+"/ESP32/esp32_cam_upload_control.php",
@@ -74,6 +77,7 @@ export default class Home extends Component{
             })
     }
 
+    // Hiệu ứng loading khi chụp ảnh
     loader = ()=>{
         if(!this.state.isCapturing){
             return(

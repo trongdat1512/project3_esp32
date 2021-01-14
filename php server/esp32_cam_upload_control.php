@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <!-- <meta http-equiv="refresh" content="3"> -->
     <title>He Thong Dieu Khien</title>
     <link rel = "stylesheet" type="text/css" href="style.css"/>
 
@@ -20,7 +19,7 @@
     </header>
 
     <?php
-    //thực hiện ghi giá trị capture=on vào test.json nếu như có bản tin POST của user:admin
+    //thực hiện ghi giá trị capture=on vào test.json nếu như có POST request
     // gửi đến chính file php này.
     $jsonString = file_get_contents("test/test.json");
     $data = json_decode($jsonString, true);

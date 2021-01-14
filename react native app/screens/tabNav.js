@@ -6,6 +6,7 @@ import StorageStack from "./storage/storageStack";
 
 const Tab = createMaterialBottomTabNavigator();
 
+// Tạo tab navigation
 export default class TabNav extends Component{
     render() {
         return(

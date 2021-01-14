@@ -1,4 +1,5 @@
 <?php
+// Xử lý ảnh được gửi từ camera
 $jsonString = file_get_contents("test/test.json");
 $data = json_decode($jsonString, true);
 $received = file_get_contents('php://input');

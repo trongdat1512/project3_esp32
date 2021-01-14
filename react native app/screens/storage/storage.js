@@ -22,6 +22,7 @@ export default class Storage extends Component{
         this.reload();
     }
 
+    // Lấy dữ liệu trên firebase storage
     reload = ()=>{
         this.setState({
             isLoading: true,
@@ -36,6 +37,7 @@ export default class Storage extends Component{
                 count++;
             });
             res.items.forEach(function(itemRef) {
+                // Lấy URL của ảnh để hiển thị
                 itemRef.getDownloadURL().then(url=>{
                     item.unshift(JSON.parse(JSON.stringify({"url": url, "name": itemRef.name})));
                     check++;
@@ -58,6 +60,7 @@ export default class Storage extends Component{
         }, 1000);
     }
 
+    // Tạo hiệu ứng loading
     loader = ()=>{
         if(!this.state.isLoading){
             return(
